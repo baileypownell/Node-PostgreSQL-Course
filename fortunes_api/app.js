@@ -8,6 +8,21 @@ app.get('/fortunes', (req, res) => {
   res.json(fortunes)
 });
 
+app.get('/fortunes/random', (req, res) => {
+  // this gets logged to development console
+  console.log('requesting random fortunes');
+
+  res.json(fortunes[Math.floor(Math.random() * fortunes.length)])
+})
+
+app.get('/fortunes/:id', (req, res) => {
+  console.log(req.params);
+  if (fortunes.find(f => f.id != req.params.id)) {
+    res.send('No fortune matches your request')
+  }
+  res.json(fortunes.find(f => f.id == req.params.id));
+})
+
 // export app so www file can access it
 module.exports = app;
 
