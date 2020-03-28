@@ -51,22 +51,23 @@ const new_fortunes = fortunes.concat(fortune);
 // update method
 app.put('/fortunes/:id', (req, res) => {
   const { id } = req.params;
-  //const { message, lucky_number, spirit_animal } = req.body;
-
   const old_fortune = fortunes.find(f => f.id == id);
-  // console.log(old_fortune)
-  // if (message) old_fortune.message = message;
-  // if (lucky_number) old_fortune.lucky_number = lucky_number;
-  // if (spirit_animal) old_fortune.spirit_animal = spirit_animal;
-
   ['message', 'lucky_number', 'spirit_animal'].forEach((key) => {
     if (req.body[key]) old_fortune[key] =  req.body[key];
   })
-
   writeFortunes(fortunes);
-
   // send back new data 
   res.json(fortunes)
+})
+
+//delete method 
+app.delete('/fortunes/:id', (req, res) => {
+  const { id } = req.params;
+  let new_fortunes = fortunes.filter(f => f.id != id);
+  console.log(new_fortunes)
+  writeFortunes(new_fortunes);
+
+  res.json(new_fortunes);
 })
 
 // export app so www file can access it
